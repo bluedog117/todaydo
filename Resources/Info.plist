@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>Todaydo</string>
+	<key>CFBundleIdentifier</key>
+	<string>app.todaydo.desktop</string>
+	<key>CFBundleName</key>
+	<string>todaydo</string>
+	<key>CFBundleDisplayName</key>
+	<string>todaydo</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>todaydo uses Calendar access to create a dedicated calendar and manage events for tracked projects.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>todaydo uses Calendar access to create a dedicated calendar and manage events for tracked projects.</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>todaydo reads the active browser tab to extract its domain for activity classification. Full URLs are not saved.</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+	</array>
+</dict>
+</plist>
