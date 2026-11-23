@@ -1,68 +1,92 @@
+<div align="center">
+
 # todaydo
 
-A local-first macOS activity tracker built with SwiftUI and SQLite. Track foreground apps and browser domains, review your time, record offline activities, and use a Pomodoro timer from the menu bar.
+**Know where your day goes. Keep your activity data under your control.**
 
-## Requirements
+A native, local-first macOS activity tracker with timelines, focus insights, and a menu bar Pomodoro timer.
 
-- macOS 14 or later
-- Xcode Command Line Tools with a Swift toolchain compatible with Swift tools version 5.9 or later
-- No third-party runtime dependencies
+[![macOS](https://img.shields.io/badge/macOS-14%2B-111827?logo=apple)](#compatibility)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Swift](https://img.shields.io/badge/Swift-5.9%2B-F05138?logo=swift&logoColor=white)](Package.swift)
+[![Release](https://img.shields.io/github/v/release/bluedog117/todaydo)](https://github.com/bluedog117/todaydo/releases)
+[![Issues](https://img.shields.io/github/issues/bluedog117/todaydo)](https://github.com/bluedog117/todaydo/issues)
+[![Stars](https://img.shields.io/github/stars/bluedog117/todaydo?style=flat)](https://github.com/bluedog117/todaydo/stargazers)
 
-## Build
+[Get started](#get-started) · [User guide](docs/USER_GUIDE.md) · [Documentation](#documentation) · [Report a bug](https://github.com/bluedog117/todaydo/issues/new/choose)
 
-```sh
-./build.sh
-```
-
-The script runs 31 core checks, builds the release executable, packages `build/todaydo.app`, and signs it with an ad-hoc signature. A full Xcode installation is not required. The app is not notarized.
-
-To install the resulting app:
-
-```sh
-./build.sh install
-```
-
-This replaces an existing `/Applications/todaydo.app`. It does not install or modify a differently named application. For stable development signing, supply your own code-signing identity:
-
-```sh
-SIGN_IDENTITY="Your Development Identity" ./build.sh
-```
-
-Ad-hoc rebuilds may cause macOS to request Calendar or Automation permission again. Public source availability does not imply Apple notarization.
+</div>
 
 ## Features
 
-- Foreground app tracking with idle detection, media-playback awareness, and lock/sleep handling
-- Optional browser domain classification for Safari and Chromium-based browsers
-- Daily timeline with range editing, manual entries, splitting, and undo
-- Weekly summaries, monthly heatmaps, long-term trends, and focus statistics
-- App, domain, time-of-day, project, category, and workday rules
-- Pomodoro timer with short/long breaks and macOS system alert sounds
-- Stand, goal, activity-limit, and time-awareness reminders
-- Adjustable interface scale, CSV export, local snapshots, and optional iCloud Drive backups
-- Optional project-event synchronization to a dedicated Calendar
+| Area | What you can do |
+|---|---|
+| Activity tracking | Track foreground apps, idle time, screen lock/sleep, and supported browser domains |
+| Timeline | Review today, select time ranges, add offline activity, split records, edit, and undo |
+| Insights | Explore weekly totals, monthly heatmaps, long-term trends, and activity fragmentation |
+| Rules and projects | Classify by app, domain, or time of day; assign projects and override workdays |
+| Focus | Run a Pomodoro timer with short/long breaks, pause/resume, and system sounds |
+| Reminders | Configure stand, goal, limit, and time-awareness reminders |
+| Data | Export CSV, restore local snapshots, and optionally back up to iCloud Drive |
+| Calendar | Optionally sync project activity to a dedicated calendar |
 
-## Privacy and permissions
+## Compatibility
 
-Activity records live in `~/Library/Application Support/todaydo/`, including `todaydo.sqlite` and local snapshots. This repository contains source code and synthetic self-checks, not activity history, databases, snapshots, signing certificates, or credentials.
+- **macOS 14 or later**; English interface.
+- Swift toolchain compatible with **Swift tools 5.9 or later**; Command Line Tools are sufficient.
+- No third-party runtime dependencies. SQLite comes from macOS.
+- Browser-domain support targets Safari and Chromium-based browsers. Firefox is app-level only.
 
-Browser inspection briefly reads the current tab URL in memory to extract its domain. Full URLs, window titles, and typed text are not saved. Supported browsers skip private/incognito windows. Firefox receives app-level tracking only. Browser tracking requires macOS Automation permission.
+## Get started
 
-Notifications require notification permission. Calendar integration requests full Calendar access to create, update, and remove managed project events. Optional iCloud backup stores unencrypted SQLite snapshots in the user's iCloud Drive; it is disabled by default. No custom analytics or telemetry service is included. This is a non-sandboxed desktop app; review the source and enable only the integrations you need.
-
-The app uses its own bundle identifier (`app.todaydo.desktop`), settings keys, data folder, and Calendar name. It does not automatically import another app's data.
-
-## Source layout
-
-```text
-Sources/TodaydoCore/  SQLite storage, classification, statistics, and undoable edits
-Sources/Todaydo/      SwiftUI interface, activity capture, reminders, backups, Calendar
-Sources/SelfTest/     Synthetic core checks
-Resources/           Application metadata and signing entitlements
+```sh
+git clone https://github.com/bluedog117/todaydo.git
+cd todaydo
+./build.sh
 ```
 
-Run core checks independently with `swift run todaydo-selftest`.
+Open `build/todaydo.app`. The app lives in the menu bar and opens its main window on first launch.
 
-## Current limitations
+To install to `/Applications/todaydo.app`, run `./build.sh install`. This replaces an existing todaydo installation. See the [build guide](docs/BUILD.md) for signing and troubleshooting.
 
-Calendar access uses full permissions. Daily summaries are computed from indexed sessions rather than a separate aggregate table. Reminders and preferences use UserDefaults. Activity polling uses a fixed interval. iCloud snapshots do not have app-level encryption. Floating panels do not independently detect every presentation or meeting state. Core self-checks do not verify real-world permission dialogs, browser integration, or multi-device iCloud behavior.
+### Downloads
+
+[Releases](https://github.com/bluedog117/todaydo/releases) provide versioned source snapshots and release notes. Build the app locally using the instructions above. A notarized, ready-to-install binary is not currently provided; do not mistake a source archive for a packaged application.
+
+## Privacy
+
+Records are stored in `~/Library/Application Support/todaydo/`. Full URLs, window titles, and typed keyboard content are not saved. Browser URLs exist briefly in memory to extract the domain. Supported browser integrations skip private/incognito windows.
+
+Calendar synchronization, browser Automation, notifications, and iCloud backups are separate integrations. iCloud snapshots are unencrypted and disabled by default. The app is non-sandboxed and ad-hoc signed by default. Read [Privacy and permissions](docs/PRIVACY.md) before enabling integrations.
+
+The repository contains source and synthetic self-checks, not activity history, device backups, signing material, or credentials.
+
+## Documentation
+
+| Document | Contents |
+|---|---|
+| [User guide](docs/USER_GUIDE.md) | First launch, views, tracking, focus, backups, and Calendar |
+| [Build guide](docs/BUILD.md) | Requirements, installation, signing, core checks, troubleshooting |
+| [Architecture](docs/ARCHITECTURE.md) | Modules, storage boundaries, implementation limits |
+| [Privacy](docs/PRIVACY.md) | Permissions, local data, browser behavior, iCloud |
+| [Changelog](CHANGELOG.md) | Version history |
+| [Contributing](CONTRIBUTING.md) | Development and pull request expectations |
+| [Security](SECURITY.md) | Sensitive reports and data-sharing precautions |
+
+## Validation and limits
+
+The initial public version passed **31 synthetic core checks**, a release build, and local signature verification. The Today and Settings views were opened to check English text. These checks do not establish real-world browser authorization, Calendar synchronization, or multi-device iCloud reliability.
+
+Polling uses a fixed interval; daily totals are aggregated from indexed sessions. Preferences and reminder rules use UserDefaults. iCloud snapshots have no app-level encryption, and floating panels do not independently detect every meeting or presentation. See [architecture notes](docs/ARCHITECTURE.md).
+
+## Contributing and support
+
+Use the [bug report or feature request templates](https://github.com/bluedog117/todaydo/issues/new/choose). Include reproducible steps and synthetic examples. Never upload personal activity databases or private screenshots. See [Contributing](CONTRIBUTING.md) and [Security](SECURITY.md).
+
+## License
+
+[MIT License](LICENSE) · Copyright © 2026 todaydo contributors.
+
+## Star history
+
+[![Star History Chart](https://api.star-history.com/svg?repos=bluedog117/todaydo&type=Date)](https://www.star-history.com/#bluedog117/todaydo&Date)
